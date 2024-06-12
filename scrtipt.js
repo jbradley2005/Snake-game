@@ -46,6 +46,7 @@ function generateFood() {
         x: Math.floor(Math.random() * (canvasSize / gridSize)) * gridSize,
         y: Math.floor(Math.random() * (canvasSize / gridSize)) * gridSize
     };
+    console.log(`New food generated at (${food.x}, ${food.y})`);
 }
 
 function changeDirection(event) {
@@ -67,15 +68,18 @@ function changeDirection(event) {
     if (keyPressed === 40 && !goingUp) {
         direction = { x: 0, y: gridSize };
     }
+    console.log(`Direction changed to (${direction.x}, ${direction.y})`);
 }
 
 function checkCollision() {
     const head = snake[0];
     if (head.x < 0 || head.x >= canvasSize || head.y < 0 || head.y >= canvasSize) {
+        console.log('Collision with wall detected');
         return true;
     }
     for (let i = 1; i < snake.length; i++) {
         if (head.x === snake[i].x && head.y === snake[i].y) {
+            console.log('Collision with self detected');
             return true;
         }
     }
@@ -100,3 +104,9 @@ function gameLoop() {
 document.addEventListener('keydown', changeDirection);
 
 setInterval(gameLoop, 100);
+
+// Initial setup
+generateFood();
+clearCanvas();
+drawFood();
+drawSnake();
